@@ -1,37 +1,68 @@
 const transactionModel = require("../models/transactionModel");
 const moment = require('moment');
 
+// const getTransactions = async (req, res) => {
+
+//     try {
+//         const { userid, frequency, customDate, type } = req.body;
+//         const transactions = await transactionModel.find({
+
+//             ...(frequency !== 'custom' ? {
+//                 date: {
+//                     $gt: moment().subtract(Number(frequency), 'd').toDate()
+//                 }
+
+//             } : {
+//                 date: {
+//                     $gte: customDate[0],
+//                     $lte: customDate[1]
+//                 }
+//             }),
+
+//             userid: req.body.userid,
+
+//             ...(type !== 'all' ? {
+//                 type: type
+//             } : {})
+//         });
+//         res.status(200).json(transactions)
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json(error)
+//     }
+
+// }
+
 const getTransactions = async (req, res) => {
+  try {
+    const { userid, frequency, startDate, endDate, type } = req.query;
 
-    try {
-        const { userid, frequency, customDate, type } = req.body;
-        const transactions = await transactionModel.find({
+    const query = {
+      userid,
+      ...(frequency !== "custom"
+        ? {
+            date: {
+              $gt: moment().subtract(Number(frequency), "d").toDate(),
+            },
+          }
+        : {
+            date: {
+              $gte: new Date(startDate),
+              $lte: new Date(endDate),
+            },
+          }),
+      ...(type !== "all" ? { type } : {}),
+    };
 
-            ...(frequency !== 'custom' ? {
-                date: {
-                    $gt: moment().subtract(Number(frequency), 'd').toDate()
-                }
+    const transactions = await transactionModel.find(query).sort({ date: -1 });
 
-            } : {
-                date: {
-                    $gte: customDate[0],
-                    $lte: customDate[1]
-                }
-            }),
+    res.status(200).json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
 
-            userid: req.body.userid,
-
-            ...(type !== 'all' ? {
-                type: type
-            } : {})
-        });
-        res.status(200).json(transactions)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
-    }
-
-}
 
 const addTransaction = async (req, res) => {
 

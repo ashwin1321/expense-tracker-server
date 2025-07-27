@@ -7,6 +7,7 @@ const connectDb = require("./config/connectDb");
 const router = require("./routes/userRoutes");
 const transactionRouter = require("./routes/transactionRoutes");
 const path = require("path");
+const {swaggerUi, swaggerSpec} = require('./utils/swaggerdocs');
 const app = express();
 
 connectDb();
@@ -22,6 +23,9 @@ app.use("/api/v1/users", router);
 // transaction routes
 app.use("/api/v1/transactions", transactionRouter);
 
+
+// Swagger UI route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 // // static files
