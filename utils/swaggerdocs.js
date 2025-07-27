@@ -11,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:8080/", 
+        url: "https://expense-tracker-server-mr2f.onrender.com/", 
       },
     ],
   },
