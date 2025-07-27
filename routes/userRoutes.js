@@ -39,7 +39,7 @@ router.get("/home", homeController);
  *           schema:
  *             type: object
  *             required:
- *               - email
+ *               - name
  *               - password
  *             properties:
  *               email:
@@ -51,7 +51,7 @@ router.get("/home", homeController);
  *     responses:
  *       200:
  *         description: Successfully logged in
- *       400:
+ *       404:
  *         description: Invalid credentials
  *       500:
  *         description: Server error
@@ -77,7 +77,7 @@ router.post("/login", loginController);
  *             properties:
  *               name:
  *                 type: string
- *                 example: Ashwin Khatiwada
+ *                 example: test user
  *               email:
  *                 type: string
  *                 example: test@example.com
@@ -87,7 +87,7 @@ router.post("/login", loginController);
  *     responses:
  *       201:
  *         description: User created successfully
- *       400:
+ *       409:
  *         description: Validation error or user already exists
  *       500:
  *         description: Server error

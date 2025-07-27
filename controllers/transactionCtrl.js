@@ -82,7 +82,7 @@ const addTransaction = async (req, res) => {
 
     const newTransaction = new transactionModel(req.body);
     await newTransaction.save();
-    res.status(201).send('transaction created')
+    res.status(201).json(newTransaction)
 
   } catch (error) {
     console.log(error);
@@ -99,6 +99,11 @@ const updateTransaction = async (req, res) => {
     const userExists = await User.exists({ _id: userid });
     if (!userExists) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+     const transaction = await transactionModel.exists({ _id: req.body.transactionId });
+     if (!transaction) {
+      return res.status(404).json({ message: "transaction not found" });
     }
 
     await transactionModel.findOneAndUpdate({ _id: req.body.transactionId }, req.body.payload)

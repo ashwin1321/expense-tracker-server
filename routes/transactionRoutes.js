@@ -40,7 +40,7 @@ const router = express.Router();
  *           type: string
  *           format: date
  *         example: 2025-07-01
- *       - in: query
+ *       - in: queryemail
  *         name: endDate
  *         schema:
  *           type: string
@@ -55,6 +55,7 @@ const router = express.Router();
  *     responses:
  *       200:
  *         description: Successfully fetched transactions
+ *       404: user not found
  *       500:
  *         description: Server error
  */
@@ -107,8 +108,8 @@ router.get("/get-transaction", getTransactions);
  *     responses:
  *       201:
  *         description: Transaction added successfully
- *       400:
- *         description: Validation error
+ *       404:
+ *         description: Validation error or user doesn't exists
  *       500:
  *         description: Server error
  */
@@ -160,7 +161,7 @@ router.post("/add-transaction", addTransaction);
  *       200:
  *         description: Transaction updated successfully
  *       404:
- *         description: Transaction not found
+ *         description: Transaction not found/ user not found
  *       500:
  *         description: Server error
  */
