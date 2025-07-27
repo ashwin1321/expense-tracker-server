@@ -22,3 +22,5 @@ yarn run start or npm run start
 - Please have either a local mongodb or use Mongo Atlas and paste the uri in the .env file"
 
 ### Please find the API Document [here](https://expense-tracker-server-mr2f.onrender.com/api-docs)
+
+##### The original code was written in 2023. refer to the repo [here](https://github.com/ashwin1321/expense-tracker)
