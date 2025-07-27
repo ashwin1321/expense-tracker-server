@@ -14,7 +14,7 @@ router.post("/add-transaction", addTransaction)
 router.post("/update-transaction", updateTransaction)
 
 // DELETE
-router.post("/delete-transaction", deleteTransaction)
+router.delete("/delete-transaction", deleteTransaction)
 
 
 module.exports = router;

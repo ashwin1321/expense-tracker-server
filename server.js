@@ -31,7 +31,7 @@ app.use("/api/v1/transactions", transactionRouter);
 // })
 
 // listen
-app.listen(5555, () => {
-  console.log(`Server is running on port 5555`.yellow.bold);
+app.listen(8080, () => {
+  console.log(`Server is running on port 8080`.yellow.bold);
 });
 
