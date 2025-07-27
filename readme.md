@@ -18,6 +18,6 @@ yarn run start or npm run start
 
 ### Note:
 - Please do install node and yarn/npm before running this server.
-- yarn is preferred to run this server but there is no problem using npm. Make sure to delete the yarn.lock folder if you are using npm/
+- yarn is preferred to run this server but there is no problem using npm. Make sure to delete the yarn.lock file if you are using npm.
 - Please have either a local mongodb or use Mongo Atlas and paste the uri in the .env file"
 
