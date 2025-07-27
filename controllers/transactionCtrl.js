@@ -1,5 +1,7 @@
+const User = require("../models/userModel");
 const transactionModel = require("../models/transactionModel");
-const moment = require('moment');
+const moment = require("moment");
+
 
 // const getTransactions = async (req, res) => {
 
@@ -37,20 +39,25 @@ const getTransactions = async (req, res) => {
   try {
     const { userid, frequency, startDate, endDate, type } = req.query;
 
+    const userExists = await User.exists({ _id: userid });
+    if (!userExists) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const query = {
       userid,
       ...(frequency !== "custom"
         ? {
-            date: {
-              $gt: moment().subtract(Number(frequency), "d").toDate(),
-            },
-          }
+          date: {
+            $gt: moment().subtract(Number(frequency), "d").toDate(),
+          },
+        }
         : {
-            date: {
-              $gte: new Date(startDate),
-              $lte: new Date(endDate),
-            },
-          }),
+          date: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        }),
       ...(type !== "all" ? { type } : {}),
     };
 
@@ -66,40 +73,57 @@ const getTransactions = async (req, res) => {
 
 const addTransaction = async (req, res) => {
 
-    try {
-        const newTransaction = new transactionModel(req.body);
-        await newTransaction.save();
-        res.status(201).send('transaction created')
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json(error)
+  try {
+    const { userid } = req.body;
+    const userExists = await User.exists({ _id: userid });
+    if (!userExists) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    const newTransaction = new transactionModel(req.body);
+    await newTransaction.save();
+    res.status(201).send('transaction created')
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error)
+  }
 
 }
 
 const updateTransaction = async (req, res) => {
-    try {
+  try {
 
-        await transactionModel.findOneAndUpdate({ _id: req.body.transactionId }, req.body.payload)
-        res.status(200).send('transaction updated')
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
+    const { userid } = req.body.payload;
+    console.log(req.body.payload)
+    const userExists = await User.exists({ _id: userid });
+    if (!userExists) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    await transactionModel.findOneAndUpdate({ _id: req.body.transactionId }, req.body.payload)
+    res.status(200).send('transaction updated')
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
 }
 
 const deleteTransaction = async (req, res) => {
 
-    try {
+  try {
 
-        await transactionModel.findOneAndDelete({ _id: req.body.transactionId })
-        res.status(200).send('transaction deleted')
-    } catch (error) {
-        console.log(error);
-        res.status(500).json(error)
+    const transaction = await transactionModel.exists({ _id: req.body.transactionId });
+     if (!transaction) {
+      return res.status(404).json({ message: "transaction not found" });
     }
+    await transactionModel.findOneAndDelete({ _id: req.body.transactionId })
+    res.status(200).send('transaction deleted')
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error)
+  }
 }
 
 module.exports = { getTransactions, addTransaction, updateTransaction, deleteTransaction }
