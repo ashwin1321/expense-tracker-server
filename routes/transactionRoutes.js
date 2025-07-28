@@ -117,19 +117,24 @@ router.post("/add-transaction", addTransaction);
 
 /**
  * @swagger
- * /api/v1/transactions/update-transaction:
+ * /api/v1/transactions/update-transaction/{id}:
  *   put:
  *     summary: Update an existing transaction
  *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Transaction ID to update
+ *         schema:
+ *           type: string
+ *           example: "64a9e5f93ab6c12345abcd67"
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - transactionId
- *               - payload
  *             properties:
  *               transactionId:
  *                 type: string
@@ -137,6 +142,9 @@ router.post("/add-transaction", addTransaction);
  *               payload:
  *                 type: object
  *                 properties:
+ *                   userid:
+ *                     type: string
+ *                     example: "64a9e5f93ab6c12345abcd67"
  *                   amount:
  *                     type: number
  *                     example: 700
@@ -165,26 +173,22 @@ router.post("/add-transaction", addTransaction);
  *       500:
  *         description: Server error
  */
-router.put("/update-transaction", updateTransaction);
+router.put("/update-transaction/:id", updateTransaction);
 
 /**
  * @swagger
- * /api/v1/transactions/delete-transaction:
+ * /api/v1/transactions/delete-transaction/{id}:
  *   delete:
  *     summary: Delete a transaction by ID
  *     tags: [Transactions]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - transactionId
- *             properties:
- *               transactionId:
- *                 type: string
- *                 example: "64a9e5f93ab6c12345abcd67"
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Transaction ID to delete
+ *         schema:
+ *           type: string
+ *           example: "64a9e5f93ab6c12345abcd67"
  *     responses:
  *       200:
  *         description: Transaction deleted successfully
@@ -193,6 +197,6 @@ router.put("/update-transaction", updateTransaction);
  *       500:
  *         description: Server error
  */
-router.delete("/delete-transaction", deleteTransaction);
+router.delete("/delete-transaction/:id", deleteTransaction);
 
 module.exports = router;

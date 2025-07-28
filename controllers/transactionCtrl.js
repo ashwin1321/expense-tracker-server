@@ -101,12 +101,12 @@ const updateTransaction = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-     const transaction = await transactionModel.exists({ _id: req.body.transactionId });
+     const transaction = await transactionModel.exists({ _id: req.params.id });
      if (!transaction) {
       return res.status(404).json({ message: "transaction not found" });
     }
 
-    await transactionModel.findOneAndUpdate({ _id: req.body.transactionId }, req.body.payload)
+    await transactionModel.findOneAndUpdate({ _id: req.params.id }, req.body.payload)
     res.status(200).send('transaction updated')
 
   } catch (error) {
@@ -119,11 +119,11 @@ const deleteTransaction = async (req, res) => {
 
   try {
 
-    const transaction = await transactionModel.exists({ _id: req.body.transactionId });
+    const transaction = await transactionModel.exists({ _id: req.params.id });
      if (!transaction) {
       return res.status(404).json({ message: "transaction not found" });
     }
-    await transactionModel.findOneAndDelete({ _id: req.body.transactionId })
+    await transactionModel.findOneAndDelete({ _id: req.params.id })
     res.status(200).send('transaction deleted')
   } catch (error) {
     console.log(error);
