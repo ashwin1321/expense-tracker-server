@@ -19,6 +19,7 @@ yarn run start or npm run start
 ### Note:
 - Please do install node and yarn/npm before running this server.
 - yarn is preferred to run this server but there is no problem using npm. Make sure to delete the yarn.lock file if you are using npm.
+- Create a env file with key MONGO_URI
 - Please have either a local mongodb or use Mongo Atlas and paste the uri in the .env file"
 
 ### Please find the API Document [here](https://expense-tracker-server-mr2f.onrender.com/api-docs)
